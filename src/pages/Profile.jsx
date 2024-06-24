@@ -13,7 +13,7 @@ const Profile = () => {
   const [userFormData, setUserFormData] = useState({
     id: "",
     name: "",
-    lastname: "",
+    fullname: "",
     email: "",
     phone: "",
     adress: "",
@@ -23,14 +23,14 @@ const Profile = () => {
 
   const getUserData = async () => {
     try {
-      const response = await axios(`http://localhost:8080/user/${id}`);
+      const response = await axios(`http://localhost:8080/api/v1/account/${id}`);
       const data = response.data;
       setUserFormData({
-        name: data.name,
-        lastname: data.lastname,
+        name: data.username,
+        fullname: data.fullname,
         email: data.email,
         phone: data.phone,
-        adress: data.adress,
+        gender: data.gender,
         password: data.password,
       });
     } catch (error) {
@@ -49,25 +49,23 @@ const Profile = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    try{
+    try {
 
-      const getResponse = await axios(`http://localhost:8080/user/${id}`);
+      const getResponse = await axios(`http://localhost:8080/api/v1/account/${id}`);
       const userObj = getResponse.data;
 
-      // saljemo get(default) request
-      const putResponse = await axios.put(`http://localhost:8080/user/${id}`, {
+
+      const putResponse = await axios.patch(`http://localhost:8080/api/v1/account/${id}`, {
         id: id,
-        name: userFormData.name,
-        lastname: userFormData.lastname,
-        email: userFormData.email,
+        fullname: userFormData.fullname,
         phone: userFormData.phone,
-        adress: userFormData.adress,
+        gender: userFormData.gender,
         password: userFormData.password,
-        userWishlist: await userObj.userWishlist
-        //userWishlist treba da stoji ovde kako bi sacuvao stanje liste zelja
+        // userWishlist: await userObj.userWishlist
+
       });
       const putData = putResponse.data;
-    }catch(error){
+    } catch (error) {
       console.log(error.response);
     }
   }
@@ -84,22 +82,23 @@ const Profile = () => {
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full lg:max-w-xs"
+              className="input input-bordered w-full lg:max-w-xs disabled:opacity-50 disabled:bg-gray-200"
               value={userFormData.name}
-              onChange={(e) => {setUserFormData({...userFormData, name: e.target.value})}}
+              onChange={(e) => { setUserFormData({ ...userFormData, name: e.target.value }) }}
+              readOnly={true}
             />
           </div>
 
           <div className="form-control w-full lg:max-w-xs">
             <label className="label">
-              <span className="label-text">Your Lastname</span>
+              <span className="label-text">Your FullName</span>
             </label>
             <input
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full lg:max-w-xs"
-              value={userFormData.lastname}
-              onChange={(e) => {setUserFormData({...userFormData, lastname: e.target.value})}}
+              value={userFormData.fullname}
+              onChange={(e) => { setUserFormData({ ...userFormData, fullname: e.target.value }) }}
             />
           </div>
 
@@ -112,7 +111,8 @@ const Profile = () => {
               placeholder="Type here"
               className="input input-bordered w-full lg:max-w-xs"
               value={userFormData.email}
-              onChange={(e) => {setUserFormData({...userFormData, email: e.target.value})}}
+              onChange={(e) => { setUserFormData({ ...userFormData, email: e.target.value }) }}
+              readOnly={true}
             />
           </div>
 
@@ -125,21 +125,28 @@ const Profile = () => {
               placeholder="Type here"
               className="input input-bordered w-full lg:max-w-xs"
               value={userFormData.phone}
-              onChange={(e) => {setUserFormData({...userFormData, phone: e.target.value})}}
+              onChange={(e) => { setUserFormData({ ...userFormData, phone: e.target.value }) }}
             />
           </div>
 
           <div className="form-control w-full lg:max-w-xs">
             <label className="label">
-              <span className="label-text">Your Adress</span>
+              <span className="label-text">Your Gender</span>
             </label>
-            <input
+            {/* <input
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full lg:max-w-xs"
               value={userFormData.adress}
               onChange={(e) => {setUserFormData({...userFormData, adress: e.target.value})}}
-            />
+            /> */}
+            <select className="select select-bordered w-full lg:max-w-xs"
+            onChange={(e) => { setUserFormData({ ...userFormData}) }}
+            >
+              <option value="">Select gender</option>
+              <option value="0">Male</option>
+              <option value="1">Female</option>
+            </select>
           </div>
 
           <div className="form-control w-full lg:max-w-xs">
@@ -151,7 +158,7 @@ const Profile = () => {
               placeholder="Type here"
               className="input input-bordered w-full lg:max-w-xs"
               value={userFormData.password}
-              onChange={(e) => {setUserFormData({...userFormData, password: e.target.value})}}
+              onChange={(e) => { setUserFormData({ ...userFormData, password: e.target.value }) }}
             />
           </div>
         </div>

@@ -1,42 +1,64 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import "../styles/Landing.css";
 import { Hero, ProductElement, Stats } from "../components";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {nanoid} from "nanoid";
 
 export const landingLoader = async () => {
   const response = await axios(
-    `http://localhost:8080/products?_page=1&_limit=8`
+    `http://localhost:8080/api/v1/client-api/product/all?page=1&size=10`
   );
   const data = response.data;
-
   return { products: data };
 };
 
+
 const Landing = () => {
-  const { products } = useLoaderData();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios(
+          "http://localhost:8080/api/v1/client-api/product/all?page=1&size=10"
+        );
+        setProducts(response.data.content);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchData();
+  }
+    , []);
+
+
   const navigate = useNavigate();
 
   return (
     <main>
       <Hero />
       <Stats />
-
       <div className="selected-products">
         <h2 className="text-6xl text-center my-12 max-md:text-4xl text-accent-content">
           Trending Products
         </h2>
         <div className="selected-products-grid max-w-7xl mx-auto">
-          {products.map((product) => (
-            <ProductElement
-              key={product.id}
-              id={product.id}
-              title={product.name}
-              image={product.imageUrl}
-              rating={product.rating}
-              price={product.price.current.value}
-            />
-          ))}
+            {products.map((product) => (
+                <ProductElement
+                    key={nanoid()}
+                    id={product.id}
+                    name={product.name}
+                    code={product.code}
+                    shortDescription={product.shortDescription}
+                    description={product.description}
+                    status={product.status}
+                    sizes={product.sizes}
+                    type={product.type}
+                    sex={product.sex}
+                    brand={product.brand}
+                    images={product.images}
+                />
+            ))}
         </div>
       </div>
     </main>

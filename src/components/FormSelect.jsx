@@ -1,4 +1,8 @@
-const FormSelect = ({ label, name, list, defaultValue, size }) => {
+const FormSelect = ({ label, name, list=[], defaultValue, size }) => {
+  if(!Array.isArray(list)){
+      console.error("List is not an array");
+      list = [];
+  }
     return (
       <div className='form-control'>
         <label htmlFor={name} className='label'>
@@ -6,7 +10,7 @@ const FormSelect = ({ label, name, list, defaultValue, size }) => {
         </label>
         <select
           name={name}
-          id={name}
+    
           className={`select select-bordered ${size}`}
           defaultValue={defaultValue}
         >

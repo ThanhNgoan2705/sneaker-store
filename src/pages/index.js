@@ -12,3 +12,6 @@ export { default as Profile } from "./Profile";
 export { default as Search } from "./Search";
 export { default as ThankYou } from "./ThankYou";
 export { default as OrderHistory } from "./OrderHistory";
+export { default as Checkout } from "./checkOut";
+export { default as OrderFail } from "./OrderFail";
+export { default as OrderSuccess } from "./OrderSuccess";

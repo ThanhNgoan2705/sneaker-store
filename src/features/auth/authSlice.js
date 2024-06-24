@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
+  token: localStorage.getItem('token') || false,
   userId: localStorage.getItem('id') || false,
   isLoggedIn: localStorage.getItem('id') ? true : false,
   darkMode: true
@@ -14,10 +15,12 @@ const authSlice = createSlice({
     loginUser: (state) => {
       state.isLoggedIn = true;
       state.userId = localStorage.getItem('id');
+      state.token = localStorage.getItem('token');
     },
     logoutUser: (state) => {
       state.isLoggedIn = false;
       state.userId = false;
+        state.token = false;
       toast.success("You have successfuly logout");
     },
     changeMode: (state) => {

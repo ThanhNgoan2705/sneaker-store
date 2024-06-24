@@ -17,20 +17,23 @@ import axios from "axios";
 import { clearWishlist, updateWishlist } from "../features/wishlist/wishlistSlice";
 
 const Header = () => {
-  const { amount } = useSelector((state) => state.cart);
-  const { total } = useSelector((state) => state.cart);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token") || false);
   const [id, setId] = useState(localStorage.getItem("id"));
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state.auth);
 
-  const loginState = useSelector((state) => state.auth.isLoggedIn);
-
-
+  const loginState = localStorage.getItem("token") ? true : false;
+  const storedCart = localStorage.getItem("cart");
+  const cartItems = storedCart ? JSON.parse(storedCart) : [];
+  const totalAmount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  console.log("totalAmount"+totalAmount);
   const fetchWishlist = async () => {
     if(loginState){
       try {
-        const getResponse = await axios.get(`http://localhost:8080/user/${localStorage.getItem("id")}`);
+         const id = localStorage.getItem("id");
+         console.log("id"+id);
+        const getResponse = await axios.get(`http://localhost:8080/api/v1/account/${id}`);
         const userObj = getResponse.data;
   
         store.dispatch(updateWishlist({userObj}));
@@ -78,7 +81,7 @@ const Header = () => {
             className="btn btn-ghost normal-case text-2xl font-black text-accent-content"
           >
             <AiFillShopping />
-            Kuzma Clothing & Shoes
+            Sneaker Shoe Store
           </Link>
         </div>
         <div className="flex-none">
@@ -115,6 +118,7 @@ const Header = () => {
           </Link>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
+            <span className="badge badge-accent absolute right-0 top-0 w-1/2 h-1/2">{totalAmount}</span>
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -138,10 +142,10 @@ const Header = () => {
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-accent-content">
-                  {amount} Items
+                  {totalAmount} Items
                 </span>
                 <span className="text-info text-accent-content">
-                  Subtotal: ${total.toFixed(2)}
+                  Subtotal: {totalAmount}
                 </span>
                 <div className="card-actions">
                   <Link

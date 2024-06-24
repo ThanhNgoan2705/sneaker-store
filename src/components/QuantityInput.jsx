@@ -2,7 +2,8 @@ import React, { memo, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 
-const QuantityInput = ({ quantity, setQuantity }) => {
+const QuantityInput = ( {quantity, setQuantity}) => {
+  
   return (
     <>
       <button

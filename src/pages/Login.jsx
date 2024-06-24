@@ -7,7 +7,7 @@ import { store } from "../store";
 import { loginUser, logoutUser } from "../features/auth/authSlice";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,9 +23,9 @@ const Login = () => {
   const isValidate = () => {
     let isProceed = true;
 
-    if (email.length === 0) {
+    if (username.length === 0) {
       isProceed = false;
-      toast.warn("Please enter a email");
+      toast.warn("Please enter username");
     } else if (password.length < 6) {
       isProceed = false;
       toast.warn("Password must be minimum 6 characters");
@@ -36,24 +36,32 @@ const Login = () => {
   const proceedLogin = (e) => {
     e.preventDefault();
     if (isValidate()) {
-      fetch("http://localhost:8080/user")
-        .then((res) => res.json())
-        .then((res) => {
-          let data = res;
-          const foundUser = data.filter(
-            (item) => item.email === email && item.password === password
-          );
-          if (foundUser[0]) {
-            toast.success("Login successful");
-            localStorage.setItem("id", foundUser[0].id);
-            store.dispatch(loginUser());
-            navigate("/");
+      fetch("http://localhost:8080/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
           } else {
-            toast.warn("Email or password is incorrect");
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("id", data.id);
+            localStorage.setItem("cart", JSON.stringify([]));
+            console.log(data.token);
+            console.log(data.id);
+            dispatch(loginUser());
+            navigate("/");
           }
         })
-        .catch((err) => {
-          toast.error("Login failed due to: " + err.message);
+        .catch((error) => {
+          console.error("Error:", error);
         });
     }
   };
@@ -66,13 +74,13 @@ const Login = () => {
           <div className="bg-dark border border-gray-600 shadow w-full rounded-lg divide-y divide-gray-200">
             <form className="px-5 py-7" onSubmit={proceedLogin}>
               <label className="font-semibold text-sm pb-1 block text-accent-content">
-                E-mail
+                UserName
               </label>
               <input
-                value={email}
+                value={username}
                 required={true}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
+                onChange={(e) => setUserName(e.target.value)}
+                type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
               <label className="font-semibold text-sm pb-1 block text-accent-content">
