@@ -20,6 +20,9 @@ import {
 } from "./pages";
 import { landingLoader } from "./pages/Landing";
 import { ToastContainer } from "react-toastify";
+import AdminDashboard from './pages/admin/pages/Dashboard';
+import AdminLayout from './pages/admin/AdminLayout';
+import { AdminAccount, AdminBrand, AdminKindShoe, AdminOrder, AdminPaymentMethod, AdminProduct } from "./pages/admin/pages";
 
 const router = createBrowserRouter([
   {
@@ -96,6 +99,40 @@ const router = createBrowserRouter([
         path:"order-fail",
         element: <OrderFail />
       }
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+      },
+      {
+        path: 'products',
+        element: <AdminProduct />, // Trang Admin Product
+      },
+      {
+        path: 'brands',
+        element: <AdminBrand />, // Trang Admin Brand
+      },
+      {
+        path: 'kinds',
+        element: <AdminKindShoe />, // Trang Admin KindShoe
+      },
+      {
+        path: 'accounts',
+        element: <AdminAccount />, // Trang Admin Account
+      },
+      {
+        path: 'orders',
+        element: <AdminOrder />, // Trang Admin Order
+      },
+      {
+        path: 'payments',
+        element: <AdminPaymentMethod />, // Trang Admin Pay Method
+      },
     ],
   },
 ]);
