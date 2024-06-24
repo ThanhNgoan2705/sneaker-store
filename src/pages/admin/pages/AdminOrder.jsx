@@ -60,7 +60,7 @@ const AdminOrder = () => {
       name: <div className="text-blue-500 font-bold text-center text-lg w-full">Tổng tiền</div>,
       selector: row => row.totalPay,
       // width: "15rem",
-      cell: row => <div className="flex justify-center items-center text-center w-full">{row.totalPay.toLocaleString('vi-VN')}</div>,
+      cell: row => <div className="flex justify-center items-center text-center w-full">{row.totalPay.toLocaleString('vi-VN')}đ</div>,
     },
     {
       name: <div className="text-blue-500 font-bold text-center text-lg w-full">Phương thức thanh toán</div>,
