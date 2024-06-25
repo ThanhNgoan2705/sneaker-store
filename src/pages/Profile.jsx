@@ -23,7 +23,7 @@ const Profile = () => {
 
   const getUserData = async () => {
     try {
-      const response = await axios(`http://localhost:8080/api/v1/account/${id}`);
+      const response = await axios(`http://localhost:8080/api/v1/user-api/account/${id}`);
       const data = response.data;
       setUserFormData({
         name: data.username,
@@ -51,11 +51,11 @@ const Profile = () => {
     e.preventDefault();
     try {
 
-      const getResponse = await axios(`http://localhost:8080/api/v1/account/${id}`);
+      const getResponse = await axios(`http://localhost:8080/api/v1/user-api/account/${id}`);
       const userObj = getResponse.data;
 
 
-      const putResponse = await axios.patch(`http://localhost:8080/api/v1/account/${id}`, {
+      const putResponse = await axios.patch(`http://localhost:8080/api/v1/user-api/account/${id}`, {
         id: id,
         fullname: userFormData.fullname,
         phone: userFormData.phone,

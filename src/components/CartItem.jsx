@@ -73,7 +73,7 @@ if (!productData) {
         {/* REMOVE */}
         <button
           className=" btn btn-primary mt-2 link link-warning link-hover text-sm text-accent-content"
-          onClick={() => removeFromCart(cartItem.id)}
+          onClick={() => removeFromCart(id, cartItem.size.name)}
         >
           remove
         </button>

@@ -62,7 +62,7 @@ const Register = () => {
       gender,
     };
     if (isValidate()) {
-      fetch("http://localhost:8080/api/v1/auth/register", {
+      fetch("http://localhost:8080/api/v1/client-api/auth/register", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(regObj),
@@ -71,7 +71,11 @@ const Register = () => {
           if(res=== null){
             toast.error("Failed");
           }
-          navigate("/login");
+          if (res.ok) {
+            toast.success("Register successfully");
+            navigate("/login");
+          }
+        
         })
         .catch((err) => {
           toast.error("Failed: " + err.message);

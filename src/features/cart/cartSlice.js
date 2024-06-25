@@ -22,9 +22,11 @@ const addToCart = (product) => {
     }
     const cartItems = getCart();
     console.log(cartItems);
-    const existingProduct = cartItems.findIndex((item) => item.productId === product.productData.id && item.size.id=== product.size.id);
+    const existingProduct = cartItems.findIndex((item) => item.productId === product.productData.id && item.size.name=== product.size.name);
+    console.log(existingProduct);
     if (existingProduct >= 0) {
-        cartItems.quantity += product.quantity;
+        cartItems[existingProduct].quantity += product.quantity;
+       
         toast.success("Product added amount to cart");
     }
     else {
@@ -32,15 +34,22 @@ const addToCart = (product) => {
         toast.success("Product added to cart");
     }
     cartItems.total = calculateTotals(cartItems);
+    console.log(cartItems);
     saveCart(cartItems);
 };
 
-const removeFromCart = (productId) => {
+const removeFromCart = (productId,sizeName) => {
+    console.log(productId);
+    console.log(sizeName);
     let cart = getCart();
-    const existingProductIndex = cart.findIndex((item) => item.id === productId);
+    const existingProductIndex = cart.findIndex((item) => item.productId=== productId&& item.size.name===sizeName);
+    console.log(existingProductIndex);
+    const totalQuantity = cart.map((item) => item.quantity).reduce((total, item) => total + item, 0);
+    console.log(totalQuantity);
     if (existingProductIndex >= 0) {
-        cart.totalQuantity -= cart[existingProductIndex].quantity;
-        cart = cart.filter((item) => item.id !== productId);
+        cart.splice(existingProductIndex, 1);
+        toast.success("Product removed from cart");
+
     }
     saveCart(cart);
 };
@@ -49,9 +58,9 @@ const updateCartAmount = (product, quantity) => {
     console.log(product);
     console.log("quantity" + quantity);
     const cart = getCart();
-    const productIndex = cart.findIndex((item) => item.id === product.id);
+    const productIndex = cart.findIndex((item) => item.id === product.id && item.size.name === product.size.name);
     if (productIndex >= 0) {
-        product.quantity = quantity;
+        cart[productIndex].quantity = quantity;
         saveCart(cart);
         toast.success("Cart updated");
     }

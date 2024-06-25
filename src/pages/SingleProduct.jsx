@@ -104,7 +104,6 @@ if (!productData) {
                         quantity:quantity,
                         size:selectSizes
                     });
-                    toast.success("Product added to cart");
                     }}
                 >
                     <FaCartShopping className="mr-2" />

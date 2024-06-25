@@ -26,6 +26,7 @@ const Header = () => {
   const loginState = localStorage.getItem("token") ? true : false;
   const storedCart = localStorage.getItem("cart");
   const cartItems = storedCart ? JSON.parse(storedCart) : [];
+  console.log(cartItems);
   const totalAmount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   console.log("totalAmount"+totalAmount);
   const fetchWishlist = async () => {
@@ -33,7 +34,7 @@ const Header = () => {
       try {
          const id = localStorage.getItem("id");
          console.log("id"+id);
-        const getResponse = await axios.get(`http://localhost:8080/api/v1/account/${id}`);
+        const getResponse = await axios.get(`http://localhost:8080/api/v1/user-api/account/${id}`);
         const userObj = getResponse.data;
   
         store.dispatch(updateWishlist({userObj}));
