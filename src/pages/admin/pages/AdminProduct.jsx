@@ -341,7 +341,7 @@ const AdminProduct = () => {
                 <ul className="list-disc pl-6 mb-4">
                   {selectedProduct.sizes.map(size => (
                     <li key={size.id} className="mb-1">
-                      <span className="font-semibold">Size {size.name}:</span> Số lượng: {size.quantity}, Giá: {size.price}
+                      <span className="font-semibold">Size {size.name}:</span> Số lượng: {size.quantity}, Giá: {(parseFloat(size.price)).toLocaleString('vi-VN')}đ
                     </li>
                   ))}
                 </ul>
