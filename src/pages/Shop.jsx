@@ -11,11 +11,19 @@ import { nanoid } from "nanoid";
 const Shop = () => {
     const [products, setProducts] = useState([]); // Use state to manage products
 
+    const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const [searchValue, setSearchValue] = useState('');
+    const [sort, setSort] = useState(false);
+    const [brand, setBrand] = useState("");
+    const [type, setType] = useState("");
+    const [sex, setSex] = useState("");
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios(
-                    "http://localhost:8080/api/v1/client-api/product/all"
+                    `http://localhost:8080/api/v1/client-api/product/all?page=${page}&size=10&search=${searchValue}&sort=${sort}&filter=name&brand=${brand}&type=${type}&sex=${sex}&active=true`
                 );
                 console.log("productList"+response.data.content);
                 console.table(response.data.content)
@@ -25,12 +33,12 @@ const Shop = () => {
             }
         };
         fetchData();
-    }, []); // Empty dependency array to fetch data only once
+    }, [page, searchValue, sort, brand, type, sex]); // Empty dependency array to fetch data only once
     return (
         <>
             <SectionTitle title="Shop" path="Home | Shop" />
             <div className="max-w-7xl mx-auto mt-5">
-                <Filters />
+                <Filters setProducts = {setProducts} />
                 {products.length === 0 && ( // Check for empty products data
                     <h2 className="text-accent-content text-center text-4xl my-10">
                         No products found for this filter

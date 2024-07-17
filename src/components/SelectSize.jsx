@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 
-const SelectSize = ({ sizeList, size, setSize, setStock }) => {
+const SelectSize = ({ sizeList, size, setSize, setStock, setPrice }) => {
 
   return (
     <>
@@ -13,6 +13,8 @@ const SelectSize = ({ sizeList, size, setSize, setStock }) => {
         if (sizeItem) {
           setSize(newSize);
           setStock(sizeItem.quantity);
+          setPrice(sizeItem.price);
+
         }
      
       }}>

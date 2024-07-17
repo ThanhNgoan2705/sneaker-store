@@ -12,22 +12,22 @@ const CartTotals = ({cartItems}) => {
         {/* SUBTOTAL */}
         <p className='flex justify-between text-xs border-b border-base-300 pb-2 text-accent-content'>
           <span>Subtotal</span>
-          <span className='font-medium'>{ Math.round(total) }VND</span>
+          <span className='font-medium'>{ Math.round(total).toLocaleString('vi-VN') }VND</span>
         </p>
         {/* SHIPPING */}
         <p className='flex justify-between text-xs border-b border-base-300 pb-2 text-accent-content'>
           <span>Shipping</span>
-          <span className='font-medium'>{ shipping }VND</span>
+          <span className='font-medium'>{ shipping.toLocaleString('vi-VN') }VND</span>
         </p>
         {/* Tax */}
         <p className='flex justify-between text-xs border-b border-base-300 pb-2 text-accent-content'>
           <span>Tax 20%</span>
-          <span className='font-medium'>{Math.round(tax)}VND</span>
+          <span className='font-medium'>{Math.round(tax).toLocaleString('vi-VN')}VND</span>
         </p>
         {/* Order Total */}
         <p className='flex justify-between text-sm mt-4 pb-2 text-accent-content'>
           <span>Order Total</span>
-          <span className='font-medium'>{ Math.round(total + shipping + tax) }VND</span>
+          <span className='font-medium'>{ Math.round(total + shipping + tax).toLocaleString('vi-VN') }VND</span>
         </p>
       </div>
     </div>

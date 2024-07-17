@@ -22,7 +22,10 @@ const Header = () => {
   const [id, setId] = useState(localStorage.getItem("id"));
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state.auth);
-
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
   const loginState = localStorage.getItem("token") ? true : false;
   const storedCart = localStorage.getItem("cart");
   const cartItems = storedCart ? JSON.parse(storedCart) : [];
@@ -34,7 +37,9 @@ const Header = () => {
       try {
          const id = localStorage.getItem("id");
          console.log("id"+id);
-        const getResponse = await axios.get(`http://localhost:8080/api/v1/user-api/account/${id}`);
+        const getResponse = await axios.get(`http://localhost:8080/api/v1/user-api/account/${id}`, {
+          headers: headers
+        });
         const userObj = getResponse.data;
   
         store.dispatch(updateWishlist({userObj}));
@@ -111,15 +116,9 @@ const Header = () => {
           >
             {darkMode ? <FaSun /> : <FaMoon />}
           </button>
-          <Link
-            to="/wishlist"
-            className="btn btn-ghost btn-circle text-accent-content"
-          >
-            <FaHeart className="text-xl" />
-          </Link>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
-            <span className="badge badge-accent absolute right-0 top-0 w-1/2 h-1/2">{totalAmount}</span>
+            {/*<span className="badge badge-accent absolute right-0 top-0 w-1/2 h-1/2">{totalAmount}</span>*/}
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

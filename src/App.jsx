@@ -23,6 +23,8 @@ import { ToastContainer } from "react-toastify";
 import AdminDashboard from './pages/admin/pages/Dashboard';
 import AdminLayout from './pages/admin/AdminLayout';
 import { AdminAccount, AdminBrand, AdminKindShoe, AdminOrder, AdminPaymentMethod, AdminProduct } from "./pages/admin/pages";
+import OTP from "./pages/OTP.jsx";
+import {OrderPage} from "./pages/index.js";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +39,6 @@ const router = createBrowserRouter([
       {
         path: "shop",
         element: <Shop />,
-
       },
       {
         path: "shop/product/:id",
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
         element: <Wishlist />,
       },
       {
+        path: "otp",
+        element: <OTP/>,
+      },
+      {
         path: "user-profile",
         element: <Profile />,
       },
@@ -92,12 +97,16 @@ const router = createBrowserRouter([
         element: <Checkout />
       },
       {
-        path:"order-success",
+        path:"payment/success",
         element: <OrderSuccess />
       },
       {
-        path:"order-fail",
+        path:"payment/cancel",
         element: <OrderFail />
+      },
+      {
+        path:"order-detail",
+        element: <OrderPage />
       }
     ],
   },

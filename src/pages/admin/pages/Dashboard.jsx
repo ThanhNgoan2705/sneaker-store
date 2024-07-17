@@ -28,30 +28,49 @@ const Dashboard = () => {
   const [monthlyOrders, setMonthlyOrders] = useState(Array(12).fill(0)); // Khởi tạo với 12 phần tử bằng 0
   const [monthlyMoney, setMonthlyMoney] = useState(Array(12).fill(0)); // Khởi tạo với 12 phần tử bằng 0
   const currentYear = new Date().getFullYear();
+
+  const token = localStorage.getItem("token");
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const totalMoneyResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/money/all');
+        const totalMoneyResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/money/all', {
+          headers: headers
+        });
         const totalMoneyData = await totalMoneyResponse.json();
         setTotalMoney(totalMoneyData || 0);
 
-        const todayMoneyResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/money/current');
+        const todayMoneyResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/money/current', {
+          headers: headers
+        });
         const todayMoneyData = await todayMoneyResponse.json();
         setTodayMoney(todayMoneyData || 0);
 
-        const totalOrdersResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/count/all');
+        const totalOrdersResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/count/all', {
+          headers: headers
+        });
         const totalOrdersData = await totalOrdersResponse.json();
         setTotalOrders(totalOrdersData || 0);
 
-        const todayOrdersResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/count/current');
+        const todayOrdersResponse = await fetch('http://localhost:8080/api/v1/admin/statistical/order/count/current', {
+          headers: headers
+        });
         const todayOrdersData = await todayOrdersResponse.json();
         setTodayOrders(todayOrdersData || 0);
 
-        const monthlyOrdersResponse = await fetch(`http://localhost:8080/api/v1/admin/statistical/order/count?year=${currentYear}`);
+        const monthlyOrdersResponse = await fetch(`http://localhost:8080/api/v1/admin/statistical/order/count?year=${currentYear}`, {
+          headers: headers
+        });
         const monthlyOrdersData = await monthlyOrdersResponse.json();
         setMonthlyOrders(monthlyOrdersData || Array(12).fill(0));
 
-        const monthlyMoneyResponse = await fetch(`http://localhost:8080/api/v1/admin/statistical/order/money?year=${currentYear}`);
+        const monthlyMoneyResponse = await fetch(`http://localhost:8080/api/v1/admin/statistical/order/money?year=${currentYear}`, {
+          headers: headers
+        });
         const monthlyMoneyData = await monthlyMoneyResponse.json();
         setMonthlyMoney(monthlyMoneyData || Array(12).fill(0));
       } catch (error) {

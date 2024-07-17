@@ -28,6 +28,7 @@ import {useParams} from "react-router-dom";
     const { id } = useParams();
     const [productData, setProductData] = useState(null);
     const [sizes, setSizes] = useState([]);
+    const [price, setPrice] = useState(0);
     const[ brand, setBrand] = useState([]);
     const[ type, setType] = useState([]);
     const[image, setImage] = useState([]);
@@ -41,9 +42,11 @@ import {useParams} from "react-router-dom";
         });
     }
     , [id]);
+
     useEffect(() => {
         if (productData) {
             setSizes(productData.sizes[0].name);
+            setPrice(productData.sizes[0].price);
             setBrand(productData.brand);
             setType(productData.type);
             setImage(productData.images);
@@ -64,61 +67,64 @@ if (!productData) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="product-image">
                 <img
-                src={productData.name}
+                    src={`http://localhost:8080/${productData.images[0].path}` }
                 alt={productData.images[0].path}
                 className="w-full h-full object-cover"
                 />
             </div>
-            <div className="product-details">
-                <h2 className="text-4xl font-bold text-accent-content">
-                {productData.name}
-                </h2>
+                <div className="product-details">
+                    <h2 className="text-4xl font-bold text-accent-content">
+                        Sản phẩm:  {productData.name}
+                    </h2>
+                    <h4 className="text-2xl font-bold text-accent-content my-8">
+                       {/*Giá: {(productData.sizes[0].price).toLocaleString('vi-VN')} VND*/}
+                        Giá: {parseFloat(price).toLocaleString('vi-VN')} VND
+                    </h4>
+                    {/*<SingleProductRating rating={productData.rating} />*/}
+                    <p className="text-2xl text-accent-content">
+                        {/*{productData.price.current.text}*/}
+                    </p>
+                    <p className="text-accent-content text-lg">
+                        Mô tả: {parse(productData.description || "")}
+                    </p>
+                    <div className="flex items-center gap-4 mt-4">
+                        {/* {selectSizes} */}
 
-                {/*<SingleProductRating rating={productData.rating} />*/}
-                <p className="text-2xl text-accent-content">
-                {/*{productData.price.current.text}*/}
-                </p>
-                <p className="text-accent-content text-lg">
-                {parse(productData.description || "")}
-                </p>
-                <div className="flex items-center gap-4 mt-4">
-                    {/* {selectSizes} */}
-
-                    <SelectSize sizeList={productData.sizes}
-                     size={sizes}
-                      setSize={setSizes} 
-            
-                      setStock={setStock}
-                       />
-                      stock={stock}
-                <QuantityInput quantity={quantity} setQuantity={setQuantity}  />
-                </div>
-                <div className="flex gap-4 mt-4">
-                <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                        const selectSizes = productData.sizes.find((item) => item.name === sizes);
-                        console.log(selectSizes);
-                    addToCart({
-                        productData:productData,
-                        quantity:quantity,
-                        size:selectSizes
-                    });
-                    }}
-                >
-                    <FaCartShopping className="mr-2" />
-                    Add to cart
-                </button>
-                <button className="btn btn-secondary">
-                    <FaHeart className="mr-2" />
-                    Add to wishlist
-                </button>
+                        <SelectSize sizeList={productData.sizes}
+                                    size={sizes}
+                                    setSize={setSizes}
+                                    setStock={setStock}
+                                    setPrice={setPrice}
+                        />
+                        stock={stock}
+                        <QuantityInput quantity={quantity} setQuantity={setQuantity}/>
+                    </div>
+                    <div className="flex gap-4 mt-4">
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                                const selectSizes = productData.sizes.find((item) => item.name === sizes);
+                                console.log(selectSizes);
+                                addToCart({
+                                    productData: productData,
+                                    quantity: quantity,
+                                    size: selectSizes
+                                });
+                            }}
+                        >
+                            <FaCartShopping className="mr-2"/>
+                            Add to cart
+                        </button>
+                        {/*<button className="btn btn-secondary">*/}
+                        {/*    <FaHeart className="mr-2"/>*/}
+                        {/*    Add to wishlist*/}
+                        {/*</button>*/}
+                    </div>
                 </div>
             </div>
-            </div>
-           </div>
-      </>
-    );
-};
+        </div>
+    </>
+  );
+ };
 
 export default SingleProduct;

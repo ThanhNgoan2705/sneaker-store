@@ -15,3 +15,5 @@ export { default as OrderHistory } from "./OrderHistory";
 export { default as Checkout } from "./checkOut";
 export { default as OrderFail } from "./OrderFail";
 export { default as OrderSuccess } from "./OrderSuccess";
+export { default as OTP } from "./OTP";
+export { default as OrderPage } from "./OrderPage";

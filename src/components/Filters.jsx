@@ -4,10 +4,10 @@ import { Form, Link } from "react-router-dom";
 import FormSelect from "./FormSelect";
 import axios from "axios";
 
-const Filters = () => {
+const Filters = ({setProducts}) => {
   const [selectCategoryList, setSelectCategoryList] = useState(["all"]);
   const [selectBrandList, setSelectBrandList] = useState(["all"]);
-  const [selectGenderList] = useState(["all", "male","female"]);
+  const [selectGenderList] = useState(["", "G1","G2"]);
   const [sortListByName] = useState(["asc", "desc"]);
     const [sortListByPrice] = useState(["asc", "desc"]);
 useEffect(() => {
@@ -42,7 +42,7 @@ useEffect(() => {
       const gender = e.target.gender.value;
       let query = `?page=1&size=10`;
       if (productNames) {
-        query += `&filter=${productNames}`;
+        query += `&search=${productNames}`;
       }
       if (category !== "all") {
         query += `&type=${category}`;
@@ -51,18 +51,20 @@ useEffect(() => {
         query += `&brand=${brand}`;
       }
       if (sortName !== "asc") {
-        query += `&orderName=${sortName}`;
+        query += `&sort=${true}`;
+      }else{
+        query += `&sort=${false}`;
       }
-      if (sortPrice !== "asc") {
-        query += `&orderPrice=${sortPrice}`;
-      }
-      if (gender !== "all") {
+      // if (gender == "all") {
         query += `&sex=${gender}`;
-      }
+      // }
       fetch("http://localhost:8080/api/v1/client-api/product/all" + query)
         .then((res) => res.json())
         .then((res) => {
-          console.log("search result", res);
+          const data = res.content;
+            console.log("search result", data);
+
+            setProducts(data);
         })
         .catch((err) => {
           console.error("search failed", err);

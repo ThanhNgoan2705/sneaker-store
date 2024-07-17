@@ -140,7 +140,7 @@ const AdminProduct = () => {
   
   const getAllProduct = async () => {
     try {
-      const response = await fetch(`${url}product/all?page=${page}&size=10&search=${searchValue}&sort=${sort}&filter=name&brand=${brand}&type=${type}&sex=${sex}&active=false`, {
+      const response = await fetch(`${url}product/all?page=${page}&size=3&search=${searchValue}&sort=${sort}&filter=name&brand=${brand}&type=${type}&sex=${sex}&active=false`, {
         headers: headers
       });
       const data = await response.json();
@@ -743,9 +743,7 @@ const AdminProduct = () => {
       setProductData({ ...productData, images: filteredImages });
     };
 
-    const handleCreateSubmit = async (e) => {
-      e.preventDefault();
-
+    const handleCreateSubmit = async () => {
     const productDataCopy = {
       ...productData,
       images: productData.images.map((image) => ({
@@ -787,7 +785,18 @@ const AdminProduct = () => {
           setRecords((prevRecords) => [...prevRecords, newProduct]);
           toast.success("Tạo thành công!");
           closeModal();
-          setProductData({ images: [] });
+          setProductData({
+            name: '',
+            code: '',
+            shortDescription:'',
+            description: '',
+            status: 'S1',
+            type: '',
+            sex: '',
+            brand: '',
+            sizes: [],
+            images: [],
+          });
         } else {
           console.error('Failed to post product:', response.statusText);
           toast.error('Failed to post product:', response.statusText);

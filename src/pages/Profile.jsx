@@ -17,13 +17,22 @@ const Profile = () => {
     email: "",
     phone: "",
     adress: "",
+    gender: "",
     password: "",
   });
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
   const getUserData = async () => {
     try {
-      const response = await axios(`http://localhost:8080/api/v1/user-api/account/${id}`);
+      const response = await axios(`http://localhost:8080/api/v1/user-api/account/${id}`, {
+        headers: headers
+      });
       const data = response.data;
       setUserFormData({
         name: data.username,
@@ -51,7 +60,9 @@ const Profile = () => {
     e.preventDefault();
     try {
 
-      const getResponse = await axios(`http://localhost:8080/api/v1/user-api/account/${id}`);
+      const getResponse = await axios(`http://localhost:8080/api/v1/user-api/account/${id}`, {
+        headers: headers
+      });
       const userObj = getResponse.data;
 
 
@@ -60,9 +71,9 @@ const Profile = () => {
         fullname: userFormData.fullname,
         phone: userFormData.phone,
         gender: userFormData.gender,
-        password: userFormData.password,
-        // userWishlist: await userObj.userWishlist
-
+        password: userFormData.password
+      }, {
+        headers: headers
       });
       const putData = putResponse.data;
     } catch (error) {
@@ -141,7 +152,8 @@ const Profile = () => {
               onChange={(e) => {setUserFormData({...userFormData, adress: e.target.value})}}
             /> */}
             <select className="select select-bordered w-full lg:max-w-xs"
-            onChange={(e) => { setUserFormData({ ...userFormData}) }}
+                    value={userFormData.gender}
+            onChange={(e) => { setUserFormData({ ...userFormData, gender: e.target.value }) }}
             >
               <option value="">Select gender</option>
               <option value="0">Male</option>

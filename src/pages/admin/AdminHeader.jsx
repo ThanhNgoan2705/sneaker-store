@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaBell, FaMoon, FaTimes, FaBars } from 'react-icons/fa';
+import {Link} from "react-router-dom";
 
 const AdminHeader = ({ isSidebarOpen, toggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -28,7 +29,10 @@ const AdminHeader = ({ isSidebarOpen, toggleSidebar }) => {
         <button onClick={toggleSidebar} className="text-gray-500 text-2xl">
           {isSidebarOpen ? <FaTimes /> : <FaBars />}
         </button>
-        <h1 className="ml-4 text-xl font-semibold">SHOE STORE</h1>
+        <h1 className="ml-4 text-xl font-semibold">
+          <Link to={'/'} className=" ml-4 text-xl font-semibold">    SHOE STORE</Link>
+
+         </h1>
       </div>
       <div className="flex items-center space-x-4 relative">
         <FaSearch className="text-gray-500 text-xl" />

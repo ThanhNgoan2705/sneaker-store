@@ -73,9 +73,15 @@ const Register = () => {
           }
           if (res.ok) {
             toast.success("Register successfully");
-            navigate("/login");
+              res.json().then((data) => {
+                  // Assuming data is a simple serializable value like a number or string
+                  navigate('/otp', { state: { id: data } });
+              }).catch((error) => {
+                  console.log(error);
+                  toast.success("Failed");
+              });
           }
-        
+
         })
         .catch((err) => {
           toast.error("Failed: " + err.message);
@@ -90,7 +96,7 @@ const Register = () => {
           <div className="bg-dark border border-gray-600 shadow w-full rounded-lg divide-y divide-gray-200">
             <form className="px-5 py-7" onSubmit={handleSubmit}>
               <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Name
+                Username
               </label>
               <input
                   type="text"
@@ -139,16 +145,16 @@ const Register = () => {
                   onChange={(e) => setPhone(e.target.value)}
                   required={true}
               />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                gender
-              </label>
-              <input
-                  type="text"
-                  className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  required={true}
-              />
+              {/*<label className="font-semibold text-sm pb-1 block text-accent-content">*/}
+              {/*  gender*/}
+              {/*</label>*/}
+              {/*<input*/}
+              {/*    type="text"*/}
+              {/*    className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"*/}
+              {/*    value={gender}*/}
+              {/*    onChange={(e) => setGender(e.target.value)}*/}
+              {/*    required={true}*/}
+              {/*/>*/}
 
               {/*<label className="font-semibold text-sm pb-1 block text-accent-content">*/}
               {/*  Repeat Password*/}

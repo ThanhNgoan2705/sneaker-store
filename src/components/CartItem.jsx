@@ -37,8 +37,8 @@ if (!productData) {
     >
       {/* IMAGE */}
       <img
-        src={`https://${productData.images[0].path}`}
-        alt={cartItem.name}
+        src={`http://localhost:8080/${productData.images[0].path}`}
+        alt={cartItem.id}
         className="h-24 w-24 rounded-lg sm:h-32 sm:w-32 object-cover"
       />
       {/* INFO */}
@@ -46,8 +46,11 @@ if (!productData) {
         {/* TITLE */}
         <h3 className="capitalize font-medium text-accent-content">{cartItem.name}</h3>
         {/* COMPANY */}
+        <h3 className="mt-2 capitalize text-sm text-accent-content">
+          Sản phẩm: {productData.name}
+        </h3>
         <h4 className="mt-2 capitalize text-sm text-accent-content">
-          Brand: {productData.brand.name}
+          Thương hiệu : {productData.brand.name}
         </h4>
         <h4 className="mt-2 capitalize text-sm text-accent-content">
           Size: {cartItem.size.name}
@@ -56,7 +59,7 @@ if (!productData) {
       <div className="sm:ml-12">
         {/* AMOUNT */}
         <label htmlFor="amount" className="label p-0">
-          <span className="label-text text-accent-content">Amount</span>
+        <span className="label-text text-accent-content">Amount</span>
         </label>
         <div className=" flex-row max-w-xs  justify-between ">
 
@@ -80,7 +83,7 @@ if (!productData) {
       </div>
 
       {/* PRICE */}
-      <p className="font-medium sm:ml-auto text-accent-content">{cartItem.size.price* cartItem.quantity}</p>
+      <p className="font-medium sm:ml-auto text-accent-content">{(cartItem.size.price* cartItem.quantity).toLocaleString('vi-VN')}VND</p>
     </article>
   );
 };

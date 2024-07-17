@@ -24,6 +24,15 @@ const AdminOrder = () => {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
   };
+  const getPaymentStatusStyle = (paymentMethodOrderId) => ({
+    color: paymentMethodOrderId ? 'green' : 'red',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    width: '100%',
+    fontWeight: 'bold',
+  });
   const urladmin = "http://localhost:8080/api/v1/admin";
   const columns = [
     {
@@ -35,7 +44,7 @@ const AdminOrder = () => {
     {
       name: <div className="text-blue-500 font-bold text-center text-lg w-full">Mã đơn hàng</div>,
       selector: row => row.code,
-      // width: "15rem",
+      width: "9.5rem",
       cell: row => <div className="flex justify-center items-center text-center w-full">{row.code}</div>,
     },
     {
@@ -45,7 +54,7 @@ const AdminOrder = () => {
       cell: row => <div className="flex justify-center items-center text-center w-full">{row.toName}</div>,
     },
     {
-      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Số điện thoại</div>,
+      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Điện thoại</div>,
       selector: row => row.toPhone,
       // width: "15rem",
       cell: row => <div className="flex justify-center items-center text-center w-full">{row.toPhone}</div>,
@@ -63,13 +72,19 @@ const AdminOrder = () => {
       cell: row => <div className="flex justify-center items-center text-center w-full">{row.totalPay.toLocaleString('vi-VN')}đ</div>,
     },
     {
-      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Phương thức thanh toán</div>,
+      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Phương thức</div>,
       selector: row => row.paymentMethodType,
       // width: "15rem",
       cell: row => <div className="flex justify-center items-center text-center w-full">{row.paymentMethodType}</div>,
     },
     {
-      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Trạng thái đơn hàng</div>,
+      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Thanh toán</div>,
+      selector: row => row.paymentMethodOrderId,
+      // width: "15rem",
+      cell: row => <div style={getPaymentStatusStyle(row.paymentMethodOrderId)} className="flex justify-center items-center text-center w-full">{row.paymentMethodOrderId?'Đã thanh toán':'Chưa thanh toán '}</div>,
+    },
+    {
+      name: <div className="text-blue-500 font-bold text-center text-lg w-full">Trạng thái </div>,
       selector: row => row.status.value,
       // width: "15rem",
       cell: row => <div className="flex justify-center items-center text-center w-full">{row.status.value}</div>,

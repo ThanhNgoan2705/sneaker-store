@@ -9,10 +9,10 @@ import { loginUser, logoutUser } from "../features/auth/authSlice";
 const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [role, setRole] = useState("ROLE_CLIENT");
   const dispatch = useDispatch();
   const loginState = useSelector((state) => state.auth.isLoggedIn);
-
+const  navigate = useNavigate();
   useEffect(() => {
     if (loginState) {
       localStorage.clear();
@@ -54,10 +54,14 @@ const Login = () => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
             localStorage.setItem("cart", JSON.stringify([]));
-            console.log(data.token);
-            console.log(data.id);
-            dispatch(loginUser());
-            navigate("/");
+            console.log(data.roles[0]);
+            if (data.roles[0]=== "ROLE_ADMIN") {
+                navigate("/admin");
+            }else{
+              dispatch(loginUser());
+              navigate("/");
+            }
+
           }
         })
         .catch((error) => {
